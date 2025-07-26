@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Thiệp mời cưới Đầy & Như</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400&display=swap" rel="stylesheet">
+   
+   <style>
+           body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f0eae2;
+            margin: 0;
+            padding: 20px;
+        }
+         .inner {
+            background-color: white; /* Màu nền trắng */
+            border: 2px solid #ccc; /* Khung viền */
+            padding: 20px;
+            border-radius: 10px; /* Bo góc */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px; /* Độ rộng tối đa */
+            width: 100%; /* Chiếm toàn bộ chiều rộng cho di động */
+            margin: 10% 0; /* Khoảng cách 10% từ trên và dưới */
+        }
+        .slideshow-container {
+            max-width: 100%;
+            position: relative;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+        .slides {
+            display: none;
+            width: 100%;
+            border-radius: 15px;
+        }
+        .active {
+            display: block;
+        }
+        .text {
+            display: flex; /* Sử dụng flexbox */
+            flex-direction: column; /* Xếp theo cột */
+            justify-content: center; /* Căn giữa theo chiều dọc */
+            align-items: center; /* Căn giữa theo chiều ngang */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 40px;
+            font-family: 'Dancing Script', cursive; /* Sử dụng phông chữ Dancing Script */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            text-align: center; /* Căn giữa văn bản */
+        }
+        .mini_calendar {
+         background-color: white; /* Màu nền trắng */
+            border: 2px solid #ccc; /* Khung viền */
+            padding: 20px;
+            border-radius: 10px; /* Bo góc */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px; /* Độ rộng tối đa */
+            width: 100%; /* Chiếm toàn bộ chiều rộng cho di động */
+            margin: 10% 0; /* Khoảng cách 10% từ trên và dưới */
+        }
+        .image-container {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px; /* Độ rộng tối đa của khung hình */
+            position: relative;
+        }
+        .image {
+            width: 50%; /* Mỗi ảnh chiếm 50% chiều rộng khung */
+            height: auto; /* Giữ tỷ lệ khung hình của ảnh */
+            transition: transform 0.5s ease; /* Hiệu ứng chuyển động */
+        }
+        .image:not(:first-child) {
+            transform: translateX(100%); /* Ẩn ảnh bên phải */
+        }
+        .image-container:hover .image {
+            transform: translateX(-100%); /* Hiệu ứng lướt vào */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        .calendar-month {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        td {
+            padding: 10px;
+        }
+        #today {
+            background-color: yellow; /* Nổi bật ngày hiện tại */
+            border-radius: 50%;
+            font-weight: bold;
+        }
+        .highlight {
+            background-color: orange; /* Nổi bật số 11 */
+            border-radius: 50%;
+            font-weight: bold;
+            color: white;
+        }
+        .theme-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: 	#FF9900;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .theme-btn:hover {
+            background-color: #0056b3; /* Đổi màu khi hover */
+        }
+        
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+        .prev:hover, .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        .album {
+            display: flex;
+            flex-wrap: wrap; /* Cho phép ảnh xuống hàng */
+            width: 100%;
+            max-width: 900px; /* Độ rộng tối đa của album */
+        }
+        .photo {
+            width: 45%; /* Mỗi ảnh chiếm 45% chiều rộng */
+            margin: 2.5%; /* Khoảng cách giữa các ảnh */
+            transform: translateY(20px); /* Đẩy xuống một chút */
+            opacity: 0; /* Ẩn ảnh ban đầu */
+            transition: transform 0.5s ease, opacity 0.5s ease; /* Hiệu ứng chuyển động */
+        }
+        .photo.show {
+            opacity: 1; /* Hiện ảnh */
+            transform: translateY(0); /* Về vị trí ban đầu */
+        }
+        @media (max-width: 600px) {
+            .prev, .next {
+                font-size: 14px;
+            }
+        }
+    </style>
+  <style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      font-family: "Raleway", sans-serif
+    }
+
+    .w3-quarter img {
+      margin-bottom: -6px;
+      cursor: pointer
+    }
+
+    .w3-quarter img:hover {
+      opacity: 0.6;
+      transition: 0.3s
+    }
+  </style>
+</head>
+
+<body class="w3-light-grey">
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-bar-block w3-black w3-animate-right w3-top w3-text-light-grey w3-large"
+    style="z-index:3;width:250px;font-weight:bold;display:none;right:0;" id="mySidebar">
+    <a href="javascript:void()" onclick="w3_close()" class="w3-bar-item w3-button w3-center w3-padding-32">Đóng</a>
+  
+  </nav>
+
+  <!-- Top menu on small screens -->
+  <header class="w3-container w3-top w3-white w3-xlarge w3-padding-16">
+<span class="w3-left w3-padding">Thiệp mời cưới 
+        <!-- <span style="color: #FF6699; ">&hearts;</span>  -->
+    </span>
+    <a href="javascript:void(0)" class="w3-right w3-button w3-white" onclick="w3_open()">☰</a>
+  </header>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu"
+    id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main w3-content" style="max-width:1600px;margin-top:83px">
+
+    <!-- Photo grid -->
+    <div class="w3-row w3-grayscale-min">
+      <div class="slideshow-container">
+    <img class="slides active" src="CD1.jpg" alt="Hình ảnh 1">
+    <div class="text">Ngọc Đầy </br>  <span style="color: red;  ">&hearts;</span>  Huỳnh Như</div>
+    <img class="slides" src="CD2.jpg" alt="Hình ảnh 2">
+    <img class="slides" src="CD3.jpg" alt="Hình ảnh 3">
+
+</div>
+</br>
+</br>
+</br>
+<h2 style="font-family:'Dancing Script' ; text-align: center;"">Thiệp mời đám cưới</h2>
+
+<div class="inner">
+    <h2>Save the Date</h2>
+    <span>For the wedding of</span>
+    <h3>Ngọc Đầy &amp; Huỳnh Như</h3>
+    <p>Rất vui khi bạn đến dự đám cưới của chúng tôi! Một lời chúc của bạn chắc chắn sẽ làm cho đám cưới của chúng tôi có thêm một niềm hạnh phúc!</p>
+</div>
+<h2 style="font-family:'Dancing Script' ; text-align: center;">Thời gian</h2>
+
+<div class="mini_calendar">
+    <table>
+        <caption class="calendar-month">11 / 2025</caption>
+        <tbody>
+            <tr>
+                <th abbr="Sunday">Sun</th>
+                <th abbr="Monday">Mon</th>
+                <th abbr="Tuesday">Tue</th>
+                <th abbr="Wednesday">Wed</th>
+                <th abbr="Thursday">Thu</th>
+                <th abbr="Friday">Fri</th>
+                <th abbr="Saturday">Sat</th>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td class="highlight">9</td>
+                <td>10</td>
+                <td>11</td> <!-- Nổi bật số 11 -->
+                <td>12</td>
+                <td>13</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>15</td>
+                <td>16</td>
+                <td>17</td>
+                <td>18</td>
+                <td>19</td>
+                <td>20</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>22</td>
+                <td>23</td>
+                <td>24</td>
+                <td>25</td>
+                <td>26</td>
+                <td>27</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>29</td>
+                <td>30</td>
+                <td id="emptydays" colspan="4">&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<h2 style="font-family:'Dancing Script' ;">Album ảnh cưới</h2>
+
+<div class="album">
+    <img src="CD1.jpg" class="photo" alt="Ảnh 1">
+    <img src="CD2.jpg" class="photo" alt="Ảnh 2">
+    <img src="CD3.jpg" class="photo" alt="Ảnh 3">
+    <img src="CD4.jpg" class="photo" alt="Ảnh 4">
+    <img src="CD5.jpg" class="photo" alt="Ảnh 5">
+    <img src="CD6.jpg" class="photo" alt="Ảnh 6">
+    <img src="CD7.jpg" class="photo" alt="Ảnh 7">
+    <img src="CD8.jpg" class="photo" alt="Ảnh 8">
+    <img src="CD9.jpg" class="photo" alt="Ảnh 9">
+    <img src="CD10.jpg" class="photo" alt="Ảnh 10">
+</div>
+
+<script>
+    function showPhotos() {
+        const photos = document.querySelectorAll('.photo');
+        const windowHeight = window.innerHeight;
+
+        photos.forEach(photo => {
+            const photoPosition = photo.getBoundingClientRect().top;
+
+            // Kiểm tra xem ảnh có nằm trong viewport không
+            if (photoPosition < windowHeight && photoPosition > 0) {
+                photo.classList.add('show'); // Thêm class để hiện ảnh
+            }
+        });
+    }
+
+    window.addEventListener('scroll', showPhotos);
+    window.addEventListener('load', showPhotos); // Hiện ảnh khi tải trang
+</script>
+
+<h1 style="font-family:'Dancing Script' ; text-align: center;font-size: 50px;">Thanks You</h1>
+
+  </div>
+  <script>
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+        const slides = document.getElementsByClassName("slides");
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        slides[slideIndex - 1].style.display = "block";  
+        setTimeout(showSlides, 3000); // Thay đổi ảnh sau 3 giây
+    }
+
+</script>
+
+
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Modal Image Gallery
+    function onClick(element) {
+      document.getElementById("img01").src = element.src;
+      document.getElementById("modal01").style.display = "block";
+      var captionText = document.getElementById("caption");
+      captionText.innerHTML = element.alt;
+    }
+
+  </script>
+
+
+</body>
+
+</html>
